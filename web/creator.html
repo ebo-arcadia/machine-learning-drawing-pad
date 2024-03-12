@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ML drawing pad</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="content">
+      <h1>Data Creator</h1>
+      <br />
+      <div id="sketchPadContainer"></div>
+    </div>
+    <script src="js/sketchPad.js" async defer></script>
+    <script src="js/draw.js"></script>
+    <script>
+      const sketchPad = new SketchPad(sketchPadContainer);
+    </script>
+  </body>
+</html>
