@@ -15,10 +15,14 @@ class SketchPad {
     this.eraserBtn.innerHTML = "erase";
     container.appendChild(this.eraserBtn);
     this.context = this.canvas.getContext("2d");
+    this.reset();
+    this.#addEventListeners();
+  }
+
+  reset() {
     this.paths = [];
     this.isDrawing = false;
     this.#redraw();
-    this.#addEventListeners();
   }
 
   #addEventListeners() {

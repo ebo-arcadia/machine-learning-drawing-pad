@@ -19,7 +19,7 @@
       <div id="sketchPadContainer" style="visibility: hidden"></div>
     </div>
     <script src="js/sketchPad.js" async defer></script>
-    <script src="js/draw.js"></script>
+    <script src="js/draw.js" async defer></script>
     <script>
       let index = 0;
       const drawingItems = ["car", "square", "cloud", "tree", "cat"];
@@ -28,7 +28,6 @@
         session: new Date().getTime(),
         drawings: {},
       };
-
       const sketchPad = new SketchPad(sketchPadContainer);
 
       function start() {
@@ -50,8 +49,8 @@
           alert("please draw something first");
           return;
         }
-        const drawingItem = drawingItems[index];
-        data.drawings[drawingItem] = sketchPad.paths;
+        const item = drawingItems[index];
+        data.drawings[item] = sketchPad.paths;
         sketchPad.reset();
         index++;
         const nextItem = drawingItems[index];
