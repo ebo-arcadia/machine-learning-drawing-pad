@@ -39,7 +39,7 @@ fileNames.forEach((fn) => {
 
 function generateImageFile(outFile, paths) {
   context.clearRect(0, 0, canvas.width, canvas.height);
-  draw.path(context, paths);
+  draw.paths(context, paths);
   const buffer = canvas.toBuffer("image/png");
   fs.writeFileSync(outFile, buffer);
 }
