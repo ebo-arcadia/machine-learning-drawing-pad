@@ -18,3 +18,7 @@ draw.paths = (context, paths, color = "black") => {
     draw.path(context, path, color);
   }
 };
+
+if (typeof module !== "undefined") {
+  module.exports = draw;
+}
