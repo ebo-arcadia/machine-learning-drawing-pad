@@ -25,16 +25,18 @@ fileNames.forEach((fn) => {
       JSON.stringify(paths)
     );
 
-    fs.writeFileSync(
-      constants.SAMPLE_NODE_WEBAPP_OBJ,
-      "const sample_node_webapp_obj=" + JSON.stringify(samples) + ";"
-    );
-
     generateImageFile(constants.IMG_DIR + "/" + id + ".png", paths);
-    utils.printProgress(id, fileNames.length * 8);
+    utils.printProgress(id, fileNames.length * 4);
     id++;
   }
 });
+
+fs.writeFileSync(constants.SAMPLES, JSON.stringify(samples));
+
+fs.writeFileSync(
+  constants.SAMPLE_NODE_WEBAPP_OBJ,
+  "const sample_node_webapp_obj=" + JSON.stringify(samples) + ";"
+);
 
 function generateImageFile(outFile, paths) {
   context.clearRect(0, 0, canvas.width, canvas.height);

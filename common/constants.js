@@ -9,8 +9,6 @@ constants.SAMPLES = constants.DATASET_DIR + "/samples.json";
 constants.NODE_WEBAPP_OBJ = "../common/node_webapp_obj";
 constants.SAMPLE_NODE_WEBAPP_OBJ = constants.NODE_WEBAPP_OBJ + "/samples.js";
 
-const fs = require("fs");
-
 if (typeof module !== "undefined") {
   module.exports = constants;
 }
