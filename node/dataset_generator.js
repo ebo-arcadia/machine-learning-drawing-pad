@@ -25,6 +25,11 @@ fileNames.forEach((fn) => {
       JSON.stringify(paths)
     );
 
+    fs.writeFileSync(
+      constants.SAMPLE_NODE_WEBAPP_OBJ,
+      "const sample_node_webapp_obj=" + JSON.stringify(samples) + ";"
+    );
+
     generateImageFile(constants.IMG_DIR + "/" + id + ".png", paths);
     utils.printProgress(id, fileNames.length * 8);
     id++;
