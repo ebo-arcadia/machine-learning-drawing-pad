@@ -13,8 +13,16 @@
     <script src="../common/node_webapp_obj/samples.js"></script>
     <script src="../common/constants.js"></script>
     <script src="../common/utils.js"></script>
+    <script src="js/display.js"></script>
+
     <script>
-      console.log(sample_node_webapp_obj);
+      const groups = utils.groupBy(sample_node_webapp_obj, "user_id");
+      console.log(groups);
+      for (let user_id in groups) {
+        const userInputData = groups[user_id];
+        const userName = userInputData[0].user_name;
+        createRow(container, userName, userInputData);
+      }
     </script>
   </body>
 </html>
