@@ -9,21 +9,56 @@
   </head>
   <body>
     <h1>Data Viewer</h1>
+    <!-- div that will hold the table chart-->
+    <div id="chartContainer"><p>chart goes here</p></div>
     <div id="container"></div>
     <script src="../common/node_webapp_obj/features.js"></script>
     <script src="../common/constants.js"></script>
     <script src="../common/utils.js"></script>
     <script src="js/display.js"></script>
+    <!--Load the AJAX API-->
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
 
-    <script>
+    <script type="text/javascript">
       const { samples, featureNames } = features;
       const groups = utils.groupBy(samples, "user_id");
-      console.log(groups);
       for (let user_id in groups) {
         const userInputData = groups[user_id];
         const userName = userInputData[0].user_name;
         createRow(container, userName, userInputData);
       }
+      // Load the Visualization API and the corechart package.
+      google.charts.load("current", { packages: ["corechart"] });
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // callback creates and populates data table
+      // instantiate the table and draws it
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn("number", featureNames[0]);
+        data.addColumn("number", featureNames[1]);
+        data.addRows(samples.map((sample) => sample.point));
+      }
+
+      // set chart options
+      const options = {
+        width: 500,
+        height: 500,
+        hAxis: { title: featureNames[0] },
+        vAxis: { title: featureNames[1] },
+        legend: { position: "none" },
+      };
+
+      // instantiate and draw chart, passing in data and options
+      var chart = new google.visualization.ScatterChart(
+        document.getElementById("chartContainer")
+      );
+      chart.draw(data, options);
     </script>
   </body>
 </html>
