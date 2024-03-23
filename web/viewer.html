@@ -10,13 +10,14 @@
   <body>
     <h1>Data Viewer</h1>
     <div id="container"></div>
-    <script src="../common/node_webapp_obj/samples.js"></script>
+    <script src="../common/node_webapp_obj/features.js"></script>
     <script src="../common/constants.js"></script>
     <script src="../common/utils.js"></script>
     <script src="js/display.js"></script>
 
     <script>
-      const groups = utils.groupBy(sample_node_webapp_obj, "user_id");
+      const { samples, featureNames } = features;
+      const groups = utils.groupBy(samples, "user_id");
       console.log(groups);
       for (let user_id in groups) {
         const userInputData = groups[user_id];
