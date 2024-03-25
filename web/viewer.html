@@ -6,6 +6,9 @@
     <title>Data reviewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Data Viewer</h1>
     <script src="../common/node_webapp_obj/features.js"></script>
     <script src="../common/constants.js"></script>
     <script src="../common/utils.js"></script>
@@ -35,14 +38,22 @@
       function drawChart() {
         // set chart options
         const options = {
-          title: "cool folks drawing data",
+          title: "drawing point & path dashboard",
           hAxis: { title: featureNames[0] },
           vAxis: { title: featureNames[1] },
+          legend: "none",
+          explorer: {
+            maxZoomIn: 0.01,
+            actions: ["dragToZoom", "rightClickToReset"],
+          },
         };
         var data = new google.visualization.DataTable();
         data.addColumn("number", featureNames[0]);
         data.addColumn("number", featureNames[1]);
-        data.addRows(samples.map((sample) => sample.point));
+        data.addColumn({ type: "string", role: "style" });
+        data.addRows(
+          samples.map((sample) => [...sample.point, utils.styles[sample.item]])
+        );
 
         // instantiate and draw chart, passing in data and options
         var chart = new google.visualization.ScatterChart(
@@ -52,9 +63,6 @@
         chart.draw(data, options);
       }
     </script>
-  </head>
-  <body>
-    <h1>Data Viewer</h1>
     <div id="container"></div>
     <div id="chart_div" style="width: 900px; height: 500px"></div>
   </body>

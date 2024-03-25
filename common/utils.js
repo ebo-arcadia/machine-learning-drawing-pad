@@ -2,6 +2,13 @@ const utils = {};
 
 utils.flaggedUsers = [1710428516463];
 
+utils.styles = {
+  car: "red",
+  square: "green",
+  cloud: "purple",
+  tree: "blue",
+};
+
 utils.formatPercent = (n) => {
   return (n * 100).toFixed(2) + "%";
 };
