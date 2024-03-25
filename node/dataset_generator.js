@@ -12,14 +12,14 @@ let id = 1;
 fileNames.forEach((fn) => {
   const content = fs.readFileSync(constants.RAW_DIR + "/" + fn);
   const { session, user, drawings } = JSON.parse(content);
-  for (let item in drawings) {
+  for (let label in drawings) {
     samples.push({
       id,
-      item,
+      label,
       user_name: user,
       user_id: session,
     });
-    paths = drawings[item];
+    paths = drawings[label];
     fs.writeFileSync(
       constants.JSON_DIR + "/" + id + ".json",
       JSON.stringify(paths)
