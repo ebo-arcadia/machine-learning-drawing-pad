@@ -21,7 +21,7 @@ fs.writeFileSync(
   JSON.stringify({
     featureNames,
     samples: samples.map((sample) => {
-      return { point: sample.point, item: sample.item };
+      return { point: sample.point, label: sample.label };
     }),
   })
 );

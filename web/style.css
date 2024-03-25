@@ -34,14 +34,14 @@ button:disabled:hover {
 
 .row {
   display: flex;
-  align-items: center;
+  align-labels: center;
 }
 
 .thumb {
   width: 40%;
 }
 
-.rowItem {
+.rowlabel {
   width: 15%;
   text-overflow: ellipsis;
   overflow: hidden;
