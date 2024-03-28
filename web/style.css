@@ -60,3 +60,18 @@ button:disabled:hover {
 .blur {
   filter: blur(5px);
 }
+
+.emphasize {
+  background-color: yellow;
+}
+
+#container {
+  width: calc(100% - 400px);
+}
+
+#chartContainer {
+  position: fixed;
+  right: 0;
+  top: 45%;
+  transform: translate(55%, -50%);
+}

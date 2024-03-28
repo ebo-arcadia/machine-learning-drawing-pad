@@ -29,3 +29,12 @@ function createRow(container, userName, userInputData) {
     row.appendChild(dataContainer);
   }
 }
+
+function handleClick(data) {
+  [...document.querySelectorAll(".emphasize")].forEach((element) =>
+    element.classList.remove("emphasize")
+  );
+  const element = document.getElementById("data_" + data.id);
+  element.classList.add("emphasize");
+  element.scrollIntoView({ behavior: "smooth", block: "center" });
+}
