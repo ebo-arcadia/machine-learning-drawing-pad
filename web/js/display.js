@@ -34,10 +34,25 @@ function createRow(container, userName, userInputData) {
 }
 
 function handleClick(data, doScroll = true) {
+  if (data == null) {
+    [...document.querySelectorAll(".emphasize")].forEach((element) =>
+      element.classList.remove("emphasize")
+    );
+    return;
+  }
+
+  const element = document.getElementById("data_" + data.id);
+
+  if (element.classList.contains("emphasize")) {
+    element.classList.remove("emphasize");
+    chart.selectSample(null);
+    return;
+  }
+
   [...document.querySelectorAll(".emphasize")].forEach((element) =>
     element.classList.remove("emphasize")
   );
-  const element = document.getElementById("data_" + data.id);
+
   element.classList.add("emphasize");
   if (doScroll) {
     element.scrollIntoView({ behavior: "smooth", block: "center" });
