@@ -3,10 +3,10 @@ const utils = {};
 utils.flaggedUsers = [1710428516463];
 
 utils.styles = {
-  car: { color: "red", text: "🛟" },
-  square: { color: "green", text: "🛟" },
-  cloud: { color: "purple", text: "🛟" },
-  tree: { color: "blue", text: "🛟" },
+  car: { color: "red", text: "🚗" },
+  square: { color: "green", text: "✅" },
+  cloud: { color: "purple", text: "🌤️" },
+  tree: { color: "blue", text: "🎄" },
 };
 
 utils.formatPercent = (n) => {

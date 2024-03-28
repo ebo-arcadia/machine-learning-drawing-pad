@@ -34,7 +34,11 @@
         size: 400,
         axeslabels: featureNames,
         styles: utils.styles,
+        transparency: 0.7,
+        icon: "image",
       };
+
+      graphics.generateImages(utils.styles);
 
       const chart = new Chart(chartContainer, samples, options);
     </script>
