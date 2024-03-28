@@ -12,6 +12,9 @@ function createRow(container, userName, userInputData) {
     const { id, label, user_id } = userData;
     const dataContainer = document.createElement("div");
     dataContainer.id = "data_" + id;
+    dataContainer.onclick = () => {
+      handleClick(userData, false);
+    };
     dataContainer.classList.add("dataContainer");
 
     const drawinglabel = document.createElement("div");
@@ -30,11 +33,14 @@ function createRow(container, userName, userInputData) {
   }
 }
 
-function handleClick(data) {
+function handleClick(data, doScroll = true) {
   [...document.querySelectorAll(".emphasize")].forEach((element) =>
     element.classList.remove("emphasize")
   );
   const element = document.getElementById("data_" + data.id);
   element.classList.add("emphasize");
-  element.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (doScroll) {
+    element.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  chart.selectSample(data);
 }
