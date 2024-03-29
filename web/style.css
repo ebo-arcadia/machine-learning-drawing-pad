@@ -75,3 +75,21 @@ button:disabled:hover {
   top: 45%;
   transform: translate(55%, -50%);
 }
+
+#inputContainer {
+  position: fixed;
+  right: 500px;
+  top: 50%;
+  transform: translate(0, -50%);
+  text-align: center;
+}
+
+#controlPanel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 400;
+  text-align: center;
+  padding: 30px;
+  color: aqua;
+}

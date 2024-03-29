@@ -59,3 +59,11 @@ function handleClick(data, doScroll = true) {
   }
   chart.selectSample(data);
 }
+
+function toggleInput() {
+  if (inputContainer.style.display == "none") {
+    inputContainer.style.display = "block";
+  } else {
+    inputContainer.style.display = "none";
+  }
+}

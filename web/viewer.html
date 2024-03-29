@@ -9,12 +9,20 @@
   </head>
   <body>
     <h1>Data Viewer</h1>
+    <div id="inputContainer"></div>
     <div id="chartContainer" style="width: 900px; height: 500px"></div>
+    <div id="controlPanel">
+      <button onClick="toggleInput()">Toggle the drawing pad</button>
+    </div>
     <div id="container"></div>
     <script src="../common/node_webapp_obj/features.js"></script>
+
     <script src="../common/constants.js"></script>
     <script src="../common/utils.js"></script>
+    <script src="../common/draw.js"></script>
+
     <script src="js/display.js"></script>
+    <script src="js/sketchPad.js"></script>
 
     <script src="./chart/chart.js"></script>
     <script src="./chart/math.js"></script>
@@ -41,6 +49,10 @@
       graphics.generateImages(utils.styles);
 
       const chart = new Chart(chartContainer, samples, options, handleClick);
+
+      const sketchPad = new SketchPad(inputContainer);
+      sketchPad.canvas.style.cssText +=
+        "outline: 100000px solid rgba(0,0,0,0.7)";
     </script>
   </body>
 </html>
