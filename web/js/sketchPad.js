@@ -69,6 +69,10 @@ class SketchPad {
     } else {
       this.eraserBtn.disabled = true;
     }
+    this.triggerUpdate();
+  }
+
+  triggerUpdate() {
     if (this.onUpdate) {
       this.onUpdate(this.paths);
     }
