@@ -42,7 +42,7 @@ utils.getNearest = (loc, points) => {
 
   for (let i = 0; i < points.length; i++) {
     const point = points[i];
-    const d = math.distance(loc, point);
+    const d = utils.distance(loc, point);
 
     if (d < minDist) {
       minDist = d;

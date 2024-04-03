@@ -93,3 +93,9 @@ button:disabled:hover {
   padding: 30px;
   color: aqua;
 }
+
+#predictedLabelContainer {
+  color: white;
+  font-size: 50px;
+  position: relative;
+}
