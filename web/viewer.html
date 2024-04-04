@@ -60,16 +60,16 @@
       function onDrawingUpdate(paths) {
         const functions = featureFunctions.inUse.map((func) => func.function);
         point = functions.map((func) => func(paths));
-        const label = classify(point);
+        const { label, nearestSample } = classify(point);
         predictedLabelContainer.innerHTML = "is it a " + label + " ?";
-        chart.showDynamicPoint(point, label);
+        chart.showDynamicPoint(point, label, nearestSample);
       }
 
       function classify(point) {
         const samplePoints = samples.map((s) => s.point);
         const index = utils.getNearest(point, samplePoints);
         const nearestSample = samples[index];
-        return nearestSample.label;
+        return { label: nearestSample.label, nearestSample };
       }
     </script>
   </body>
