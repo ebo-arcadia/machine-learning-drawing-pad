@@ -26,7 +26,7 @@ fileNames.forEach((fn) => {
     );
 
     generateImageFile(constants.IMG_DIR + "/" + id + ".png", paths);
-    utils.printProgress(id, fileNames.length * 4);
+    utils.printProgress(id, fileNames.length * 8);
     id++;
   }
 });

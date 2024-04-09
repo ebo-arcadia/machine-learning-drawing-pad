@@ -2,6 +2,7 @@ const constants = require("../common/constants.js");
 const featureFunctions = require("../common/featureFunctions.js");
 
 const fs = require("fs");
+const utils = require("../common/utils.js");
 
 console.info("extracting features in progress...");
 
@@ -15,6 +16,8 @@ for (const sample of samples) {
   const functions = featureFunctions.inUse.map((func) => func.function);
   sample.point = functions.map((func) => func(paths));
 }
+
+utils.normalizePoints(samples.map((s) => s.point));
 
 const featureNames = featureFunctions.inUse.map((func) => func.name);
 

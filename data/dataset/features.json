@@ -1,1 +1,69 @@
-{"featureNames":["Width","Height"],"samples":[{"point":[189,212],"label":"car"},{"point":[262,157],"label":"fish"},{"point":[279,173],"label":"house"},{"point":[222,155],"label":"tree"},{"point":[293,380],"label":"bike"},{"point":[331,205],"label":"guitar"},{"point":[318,218],"label":"pencil"},{"point":[182,196],"label":"clock"},{"point":[249,224],"label":"car"},{"point":[139,177],"label":"fish"},{"point":[244,293],"label":"house"},{"point":[145,236],"label":"tree"},{"point":[294,302],"label":"bike"},{"point":[306,284],"label":"guitar"},{"point":[354,288],"label":"pencil"},{"point":[287,330],"label":"clock"}]}
+{
+  "featureNames": ["Width", "Height"],
+  "samples": [
+    {
+      "point": [0.23255813953488372, 0.25333333333333335],
+      "label": "car"
+    },
+    {
+      "point": [0.5720930232558139, 0.008888888888888889],
+      "label": "fish"
+    },
+    {
+      "point": [0.6511627906976745, 0.08],
+      "label": "house"
+    },
+    {
+      "point": [0.386046511627907, 0],
+      "label": "tree"
+    },
+    {
+      "point": [0.7162790697674418, 1],
+      "label": "bike"
+    },
+    {
+      "point": [0.8930232558139535, 0.2222222222222222],
+      "label": "guitar"
+    },
+    {
+      "point": [0.8325581395348837, 0.28],
+      "label": "pencil"
+    },
+    {
+      "point": [0.2, 0.18222222222222223],
+      "label": "clock"
+    },
+    {
+      "point": [0.5116279069767442, 0.30666666666666664],
+      "label": "car"
+    },
+    {
+      "point": [0, 0.09777777777777778],
+      "label": "fish"
+    },
+    {
+      "point": [0.4883720930232558, 0.6133333333333333],
+      "label": "house"
+    },
+    {
+      "point": [0.027906976744186046, 0.36],
+      "label": "tree"
+    },
+    {
+      "point": [0.7209302325581395, 0.6533333333333333],
+      "label": "bike"
+    },
+    {
+      "point": [0.7767441860465116, 0.5733333333333334],
+      "label": "guitar"
+    },
+    {
+      "point": [1, 0.5911111111111111],
+      "label": "pencil"
+    },
+    {
+      "point": [0.6883720930232559, 0.7777777777777778],
+      "label": "clock"
+    }
+  ]
+}

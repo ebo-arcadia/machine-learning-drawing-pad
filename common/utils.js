@@ -4,13 +4,13 @@ utils.flaggedUsers = [1710428516463];
 
 utils.styles = {
   car: { color: "red", text: "🚗" },
-  fish: { color: "green", text: "✅" },
-  house: { color: "purple", text: "🌤️" },
+  fish: { color: "green", text: "🐠" },
+  house: { color: "purple", text: "🏚️" },
   tree: { color: "blue", text: "🎄" },
-  bike: { color: "black", text: "🎄" },
-  guitar: { color: "pink", text: "🎄" },
-  pencil: { color: "grey", text: "🎄" },
-  clock: { color: "dark blue", text: "🎄" },
+  bike: { color: "black", text: "🚲" },
+  guitar: { color: "pink", text: "🎸" },
+  pencil: { color: "grey", text: "🖊️" },
+  clock: { color: "dark blue", text: "⏰" },
 };
 
 utils.formatPercent = (n) => {
@@ -54,6 +54,28 @@ utils.getNearest = (loc, points) => {
     }
   }
   return nearestIndex;
+};
+
+utils.invLerp = (a, b, v) => {
+  return (v - a) / (b - a);
+};
+
+utils.normalizePoints = (points) => {
+  let min, max;
+  const dimensions = points[0].length;
+  min = [...points[0]];
+  max = [...points[0]];
+  for (let i = 1; i < points.length; i++) {
+    for (let j = 0; j < dimensions; j++) {
+      min[j] = Math.min(min[j], points[i][j]);
+      max[j] = Math.max(max[j], points[i][j]);
+    }
+  }
+  for (let i = 0; i < points.length; i++) {
+    for (let j = 0; j < dimensions; j++) {
+      points[i][j] = utils.invLerp(min[j], max[j], points[i][j]);
+    }
+  }
 };
 
 if (typeof module !== "undefined") {
