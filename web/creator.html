@@ -22,7 +22,7 @@
     <script src="js/sketchPad.js"></script>
     <script>
       let index = 0;
-      const drawinglabels = [
+      const drawingLabels = [
         "car",
         "fish",
         "house",
@@ -48,7 +48,7 @@
         data.user = user.value;
         user.style.display = "none";
         sketchPadContainer.style.visibility = "visible";
-        const label = drawinglabels[index];
+        const label = drawingLabels[index];
         instructions.innerHTML = "Please draw a " + label;
         advancedBtn.innerHTML = "NEXT";
         advancedBtn.onclick = next;
@@ -59,13 +59,13 @@
           alert("please draw something first");
           return;
         }
-        const drawinglabel = drawinglabels[index];
-        data.drawings[drawinglabel] = sketchPad.paths;
+        const drawingLabel = drawingLabels[index];
+        data.drawings[drawingLabel] = sketchPad.paths;
         sketchPad.reset();
         index++;
-        if (index < drawinglabel.length) {
-          const nextlabel = drawinglabels[index];
-          instructions.innerHTML = "please draw a " + nextlabel;
+        if (index < drawingLabels.length) {
+          const nextLabel = drawingLabels[index];
+          instructions.innerHTML = "please draw a " + nextLabel;
         } else {
           sketchPadContainer.style.visibility = "hidden";
           instructions.innerHTML = "your drawing has been recorded";

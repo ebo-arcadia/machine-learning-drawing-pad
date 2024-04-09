@@ -4,9 +4,13 @@ utils.flaggedUsers = [1710428516463];
 
 utils.styles = {
   car: { color: "red", text: "🚗" },
-  square: { color: "green", text: "✅" },
-  cloud: { color: "purple", text: "🌤️" },
+  fish: { color: "green", text: "✅" },
+  house: { color: "purple", text: "🌤️" },
   tree: { color: "blue", text: "🎄" },
+  bike: { color: "black", text: "🎄" },
+  guitar: { color: "pink", text: "🎄" },
+  pencil: { color: "grey", text: "🎄" },
+  clock: { color: "dark blue", text: "🎄" },
 };
 
 utils.formatPercent = (n) => {
