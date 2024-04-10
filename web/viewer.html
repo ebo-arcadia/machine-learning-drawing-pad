@@ -18,6 +18,7 @@
     </div>
     <div id="container"></div>
     <script src="../common/node_webapp_obj/features.js"></script>
+    <script src="../common/node_webapp_obj/minMax.js"></script>
 
     <script src="../common/constants.js"></script>
     <script src="../common/utils.js"></script>
@@ -60,6 +61,7 @@
       function onDrawingUpdate(paths) {
         const functions = featureFunctions.inUse.map((func) => func.function);
         point = functions.map((func) => func(paths));
+        utils.normalizePoints([point], minMax);
         const { label, nearestSample } = classify(point);
         predictedLabelContainer.innerHTML = "is it a " + label + " ?";
         chart.showDynamicPoint(point, label, nearestSample);

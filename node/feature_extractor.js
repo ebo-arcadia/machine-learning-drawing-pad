@@ -17,7 +17,7 @@ for (const sample of samples) {
   sample.point = functions.map((func) => func(paths));
 }
 
-utils.normalizePoints(samples.map((s) => s.point));
+const minMax = utils.normalizePoints(samples.map((s) => s.point));
 
 const featureNames = featureFunctions.inUse.map((func) => func.name);
 
@@ -34,6 +34,11 @@ fs.writeFileSync(
 fs.writeFileSync(
   constants.FEATURES_NODE_WEBAPP_OBJ,
   `const features=${JSON.stringify({ featureNames, samples })}`
+);
+
+fs.writeFileSync(
+  constants.MIN_MAX_NODE_WEBAPP_OBJ,
+  `const minMax=${JSON.stringify(minMax)};`
 );
 
 console.info("features extracted completed!");

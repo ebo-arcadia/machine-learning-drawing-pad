@@ -10,6 +10,7 @@ constants.FEATURES = constants.DATASET_DIR + "/features.json";
 constants.NODE_WEBAPP_OBJ = "../common/node_webapp_obj";
 constants.SAMPLE_NODE_WEBAPP_OBJ = constants.NODE_WEBAPP_OBJ + "/samples.js";
 constants.FEATURES_NODE_WEBAPP_OBJ = constants.NODE_WEBAPP_OBJ + "/features.js";
+constants.MIN_MAX_NODE_WEBAPP_OBJ = constants.NODE_WEBAPP_OBJ + "/minMax.js";
 
 if (typeof module !== "undefined") {
   module.exports = constants;
