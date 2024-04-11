@@ -62,16 +62,23 @@
         const functions = featureFunctions.inUse.map((func) => func.function);
         point = functions.map((func) => func(paths));
         utils.normalizePoints([point], minMax);
-        const { label, nearestSample } = classify(point);
+        const { label, nearestSamples } = classify(point);
         predictedLabelContainer.innerHTML = "is it a " + label + " ?";
-        chart.showDynamicPoint(point, label, nearestSample);
+        chart.showDynamicPoint(point, label, nearestSamples);
       }
 
       function classify(point) {
         const samplePoints = samples.map((s) => s.point);
-        const index = utils.getNearest(point, samplePoints);
-        const nearestSample = samples[index];
-        return { label: nearestSample.label, nearestSample };
+        const indices = utils.getNearest(point, samplePoints, 20);
+        const nearestSamples = indices.map((i) => samples[i]);
+        const labels = nearestSamples.map((sample) => sample.label);
+        const counts = {};
+        for (let label of labels) {
+          counts[label] = counts[label] ? counts[label] + 1 : 1;
+        }
+        const max = Math.max(...Object.values(counts));
+        const label = labels.find((label) => counts[label] == max);
+        return { label, nearestSamples };
       }
     </script>
   </body>

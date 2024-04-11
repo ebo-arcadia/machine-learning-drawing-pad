@@ -40,20 +40,15 @@ utils.distance = (p1, p2) => {
   return Math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2);
 };
 
-utils.getNearest = (loc, points) => {
-  let minDist = Number.MAX_SAFE_INTEGER;
-  let nearestIndex = 0;
-
-  for (let i = 0; i < points.length; i++) {
-    const point = points[i];
-    const d = utils.distance(loc, point);
-
-    if (d < minDist) {
-      minDist = d;
-      nearestIndex = i;
-    }
-  }
-  return nearestIndex;
+utils.getNearest = (loc, points, k = 1) => {
+  let obj = points.map((value, indices) => {
+    return { indices, value };
+  });
+  const sorted = obj.sort((a, b) => {
+    return utils.distance(loc, a.value) - utils.distance(loc, b.value);
+  });
+  const indices = sorted.map((obj) => obj.indices);
+  return indices.slice(0, k);
 };
 
 utils.invLerp = (a, b, v) => {
