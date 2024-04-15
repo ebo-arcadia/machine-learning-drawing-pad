@@ -21,6 +21,18 @@ const minMax = utils.normalizePoints(samples.map((s) => s.point));
 
 const featureNames = featureFunctions.inUse.map((func) => func.name);
 
+const trainingAmount = samples.length * 0.5;
+
+const training = [];
+const testing = [];
+for (let i = 0; i < samples.length; i++) {
+  if (i < trainingAmount) {
+    training.push(samples[i]);
+  } else {
+    testing.push(samples[i]);
+  }
+}
+
 fs.writeFileSync(
   constants.FEATURES,
   JSON.stringify({
@@ -39,6 +51,36 @@ fs.writeFileSync(
 fs.writeFileSync(
   constants.MIN_MAX_NODE_WEBAPP_OBJ,
   `const minMax=${JSON.stringify(minMax)};`
+);
+
+fs.writeFileSync(
+  constants.TRAINING,
+  JSON.stringify({
+    featureNames,
+    samples: training.map((sample) => {
+      return { point: sample.point, label: sample.label };
+    }),
+  })
+);
+
+fs.writeFileSync(
+  constants.TRAINING_NODE_WEBAPP_OBJ,
+  `const training=${JSON.stringify({ featureNames, samples: training })}`
+);
+
+fs.writeFileSync(
+  constants.TESTING,
+  JSON.stringify({
+    featureNames,
+    samples: testing.map((sample) => {
+      return { point: sample.point, label: sample.label };
+    }),
+  })
+);
+
+fs.writeFileSync(
+  constants.TESTING_NODE_WEBAPP_OBJ,
+  `const testing=${JSON.stringify({ featureNames, samples: testing })}`
 );
 
 console.info("features extracted completed!");

@@ -18,6 +18,8 @@
     </div>
     <div id="container"></div>
     <script src="../common/node_webapp_obj/features.js"></script>
+    <script src="../common/node_webapp_obj/training.js"></script>
+    <script src="../common/node_webapp_obj/testing.js"></script>
     <script src="../common/node_webapp_obj/minMax.js"></script>
 
     <script src="../common/constants.js"></script>
@@ -34,6 +36,28 @@
 
     <script type="text/javascript">
       const { samples, featureNames } = features;
+      const trainingSamples = training.samples;
+      const testingSamples = testing.samples;
+
+      for (let testSample of testingSamples) {
+        testSample.truth = testSample.label;
+        testSample.label = "?";
+      }
+
+      const trainingGroups = utils.groupBy(trainingSamples, "user_id");
+      for (let user_id in trainingGroups) {
+        const userInputData = trainingGroups[user_id];
+        const userName = userInputData[0].user_name;
+        createRow(container, userName, userInputData);
+      }
+
+      const testingGroups = utils.groupBy(testingSamples, "user_id");
+      for (let user_id in testingGroups) {
+        const userInputData = testingGroups[user_id];
+        const userName = userInputData[0].user_name;
+        createRow(container, userName, userInputData);
+      }
+
       const groups = utils.groupBy(samples, "user_id");
 
       for (let user_id in groups) {
@@ -52,7 +76,12 @@
 
       graphics.generateImages(utils.styles);
 
-      const chart = new Chart(chartContainer, samples, options, handleClick);
+      const chart = new Chart(
+        chartContainer,
+        trainingSamples,
+        options,
+        handleClick
+      );
 
       const sketchPad = new SketchPad(inputContainer, onDrawingUpdate);
       sketchPad.canvas.style.cssText +=
@@ -68,9 +97,9 @@
       }
 
       function classify(point) {
-        const samplePoints = samples.map((s) => s.point);
+        const samplePoints = trainingSamples.map((s) => s.point);
         const indices = utils.getNearest(point, samplePoints, 20);
-        const nearestSamples = indices.map((i) => samples[i]);
+        const nearestSamples = indices.map((i) => trainingSamples[i]);
         const labels = nearestSamples.map((sample) => sample.label);
         const counts = {};
         for (let label of labels) {
