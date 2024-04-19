@@ -9,13 +9,16 @@ function createRow(container, userName, userInputData) {
   row.appendChild(rowlabel);
 
   for (let userData of userInputData) {
-    const { id, label, user_id } = userData;
+    const { id, label, user_id, correct } = userData;
     const dataContainer = document.createElement("div");
     dataContainer.id = "data_" + id;
     dataContainer.onclick = () => {
       handleClick(userData, false);
     };
     dataContainer.classList.add("dataContainer");
+    if (correct) {
+      dataContainer.style.backgroundColor = "lightgreen";
+    }
 
     const drawinglabel = document.createElement("div");
     drawinglabel.innerHTML = label;

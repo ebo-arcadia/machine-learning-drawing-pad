@@ -17,7 +17,11 @@ for (const sample of samples) {
   sample.point = functions.map((func) => func(paths));
 }
 
-const minMax = utils.normalizePoints(samples.map((s) => s.point));
+const minMax = utils.normalizePoints(training.map((s) => s.point));
+utils.normalizePoints(
+  testing.map((s) => s.point),
+  minMax
+);
 
 const featureNames = featureFunctions.inUse.map((func) => func.name);
 

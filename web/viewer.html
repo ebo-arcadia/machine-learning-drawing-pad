@@ -15,6 +15,7 @@
     <div id="chartContainer" style="width: 900px; height: 500px"></div>
     <div id="controlPanel">
       <button onClick="toggleInput()">Toggle the drawing pad</button>
+      <div id="statistics"></div>
     </div>
     <div id="container"></div>
     <script src="../common/node_webapp_obj/features.js"></script>
@@ -39,17 +40,37 @@
       const trainingSamples = training.samples;
       const testingSamples = testing.samples;
 
+      let k = 100;
+      let correctCount = 0;
+      let totalCount = 0;
+
       for (let testSample of testingSamples) {
         testSample.truth = testSample.label;
         testSample.label = "?";
+        const { label } = classify(testSample.point);
+        testSample.label = label;
+        testSample.correct = testSample.label == testSample.truth;
+        totalCount++;
+        correctCount += testSample.correct ? 1 : 0;
       }
-
+      statistics.innerHTML =
+        "<b>Classifying accuracy</b><br>" +
+        correctCount +
+        "/" +
+        totalCount +
+        "(" +
+        utils.formatPercent(correctCount / totalCount) +
+        ")";
       const trainingGroups = utils.groupBy(trainingSamples, "user_id");
       for (let user_id in trainingGroups) {
         const userInputData = trainingGroups[user_id];
         const userName = userInputData[0].user_name;
         createRow(container, userName, userInputData);
       }
+
+      const subtitle = document.createElement("h2");
+      subtitle.innerHTML = "Testing data set";
+      container.appendChild(subtitle);
 
       const testingGroups = utils.groupBy(testingSamples, "user_id");
       for (let user_id in testingGroups) {
@@ -98,7 +119,7 @@
 
       function classify(point) {
         const samplePoints = trainingSamples.map((s) => s.point);
-        const indices = utils.getNearest(point, samplePoints, 20);
+        const indices = utils.getNearest(point, samplePoints, k);
         const nearestSamples = indices.map((i) => trainingSamples[i]);
         const labels = nearestSamples.map((sample) => sample.label);
         const counts = {};
