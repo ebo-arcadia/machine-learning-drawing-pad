@@ -95,8 +95,9 @@
         styles: utils.styles,
         transparency: 0.7,
         icon: "image",
+        background: new Image(),
       };
-
+      options.background.src = constants.DECISION_BOUNDARY;
       graphics.generateImages(utils.styles);
 
       const chart = new Chart(

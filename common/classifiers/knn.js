@@ -11,7 +11,7 @@ class KNN {
   predict(point) {
     const samplePoints = this.samples.map((s) => s.point);
     const indices = utils.getNearest(point, samplePoints, this.k);
-    const nearestSamples = indices.map((i) => trainingSamples[i]);
+    const nearestSamples = indices.map((i) => this.samples[i]);
     const labels = nearestSamples.map((sample) => sample.label);
     const counts = {};
     for (let label of labels) {

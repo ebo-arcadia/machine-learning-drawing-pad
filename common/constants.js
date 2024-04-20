@@ -15,6 +15,7 @@ constants.FEATURES_NODE_WEBAPP_OBJ = constants.NODE_WEBAPP_OBJ + "/features.js";
 constants.TRAINING_NODE_WEBAPP_OBJ = constants.NODE_WEBAPP_OBJ + "/training.js";
 constants.TESTING_NODE_WEBAPP_OBJ = constants.NODE_WEBAPP_OBJ + "/testing.js";
 constants.MIN_MAX_NODE_WEBAPP_OBJ = constants.NODE_WEBAPP_OBJ + "/minMax.js";
+constants.DECISION_BOUNDARY = constants.DATASET_DIR + "/decision_boundary.png";
 
 if (typeof module !== "undefined") {
   module.exports = constants;
