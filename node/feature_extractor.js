@@ -17,13 +17,9 @@ for (const sample of samples) {
   sample.point = functions.map((func) => func(paths));
 }
 
-const minMax = utils.normalizePoints(training.map((s) => s.point));
-utils.normalizePoints(
-  testing.map((s) => s.point),
-  minMax
-);
-
 const featureNames = featureFunctions.inUse.map((func) => func.name);
+
+console.info("generating splits data set...");
 
 const trainingAmount = samples.length * 0.5;
 
@@ -36,6 +32,12 @@ for (let i = 0; i < samples.length; i++) {
     testing.push(samples[i]);
   }
 }
+
+const minMax = utils.normalizePoints(training.map((s) => s.point));
+utils.normalizePoints(
+  testing.map((s) => s.point),
+  minMax
+);
 
 fs.writeFileSync(
   constants.FEATURES,
@@ -68,6 +70,14 @@ fs.writeFileSync(
 );
 
 fs.writeFileSync(
+  constants.TRAINING_CSV,
+  utils.toCSV(
+    [...featureNames, "label"],
+    training.map((a) => [...a.point, a.label])
+  )
+);
+
+fs.writeFileSync(
   constants.TRAINING_NODE_WEBAPP_OBJ,
   `const training=${JSON.stringify({ featureNames, samples: training })}`
 );
@@ -80,6 +90,14 @@ fs.writeFileSync(
       return { point: sample.point, label: sample.label };
     }),
   })
+);
+
+fs.writeFileSync(
+  constants.TESTING_CSV,
+  utils.toCSV(
+    [...featureNames, "label"],
+    testing.map((a) => [...a.point, a.label])
+  )
 );
 
 fs.writeFileSync(
