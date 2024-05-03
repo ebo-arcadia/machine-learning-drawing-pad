@@ -9,61 +9,116 @@
   </head>
   <body>
     <h1>Data Viewer</h1>
+    <div id="inputContainer">
+      <div id="predictedLabelContainer"></div>
+    </div>
+    <div id="chartContainer" style="width: 900px; height: 500px"></div>
+    <div id="controlPanel">
+      <button onClick="toggleInput()">Toggle the drawing pad</button>
+      <div id="statistics"></div>
+    </div>
+    <div id="container"></div>
     <script src="../common/node_webapp_obj/features.js"></script>
+    <script src="../common/node_webapp_obj/training.js"></script>
+    <script src="../common/node_webapp_obj/testing.js"></script>
+    <script src="../common/node_webapp_obj/minMax.js"></script>
+
     <script src="../common/constants.js"></script>
     <script src="../common/utils.js"></script>
+    <script src="../common/draw.js"></script>
+    <script src="../common/featureFunctions.js"></script>
+    <script src="../common/classifiers/knn.js"></script>
+
     <script src="js/display.js"></script>
-    <div id="container"></div>
-    <!--Load the AJAX API-->
-    <script
-      type="text/javascript"
-      src="https://www.gstatic.com/charts/loader.js"
-    ></script>
+    <script src="js/sketchPad.js"></script>
+
+    <script src="./chart/chart.js"></script>
+    <script src="./chart/math.js"></script>
+    <script src="./chart/graphics.js"></script>
+
     <script type="text/javascript">
       const { samples, featureNames } = features;
+      const trainingSamples = training.samples;
+      const testingSamples = testing.samples;
+
+      let k = 100;
+      const kNN = new KNN(trainingSamples, k);
+      let correctCount = 0;
+      let totalCount = 0;
+
+      for (let testSample of testingSamples) {
+        testSample.truth = testSample.label;
+        testSample.label = "?";
+        const { label } = kNN.predict(testSample.point);
+        testSample.label = label;
+        testSample.correct = testSample.label == testSample.truth;
+        totalCount++;
+        correctCount += testSample.correct ? 1 : 0;
+      }
+      statistics.innerHTML =
+        "<b>Classifying accuracy</b><br>" +
+        correctCount +
+        "/" +
+        totalCount +
+        "(" +
+        utils.formatPercent(correctCount / totalCount) +
+        ")";
+      const trainingGroups = utils.groupBy(trainingSamples, "user_id");
+      for (let user_id in trainingGroups) {
+        const userInputData = trainingGroups[user_id];
+        const userName = userInputData[0].user_name;
+        createRow(container, userName, userInputData);
+      }
+
+      const subtitle = document.createElement("h2");
+      subtitle.innerHTML = "Testing data set";
+      container.appendChild(subtitle);
+
+      const testingGroups = utils.groupBy(testingSamples, "user_id");
+      for (let user_id in testingGroups) {
+        const userInputData = testingGroups[user_id];
+        const userName = userInputData[0].user_name;
+        createRow(container, userName, userInputData);
+      }
+
       const groups = utils.groupBy(samples, "user_id");
+
       for (let user_id in groups) {
         const userInputData = groups[user_id];
         const userName = userInputData[0].user_name;
         createRow(container, userName, userInputData);
       }
-      // Load the Visualization API and the corechart package.
-      google.charts.load("current", { packages: ["corechart"] });
 
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
+      const options = {
+        size: 400,
+        axeslabels: featureNames,
+        styles: utils.styles,
+        transparency: 0.7,
+        icon: "image",
+        background: new Image(),
+      };
+      options.background.src = constants.DECISION_BOUNDARY;
+      graphics.generateImages(utils.styles);
 
-      // callback creates and populates data table
-      // instantiate the table and draws it
-      function drawChart() {
-        // set chart options
-        const options = {
-          title: "drawing point & path dashboard",
-          hAxis: { title: featureNames[0] },
-          vAxis: { title: featureNames[1] },
-          legend: "none",
-          explorer: {
-            maxZoomIn: 0.01,
-            actions: ["dragToZoom", "rightClickToReset"],
-          },
-        };
-        var data = new google.visualization.DataTable();
-        data.addColumn("number", featureNames[0]);
-        data.addColumn("number", featureNames[1]);
-        data.addColumn({ type: "string", role: "style" });
-        data.addRows(
-          samples.map((sample) => [...sample.point, utils.styles[sample.item]])
-        );
+      const chart = new Chart(
+        chartContainer,
+        trainingSamples,
+        options,
+        handleClick
+      );
 
-        // instantiate and draw chart, passing in data and options
-        var chart = new google.visualization.ScatterChart(
-          document.getElementById("chart_div")
-        );
+      const sketchPad = new SketchPad(inputContainer, onDrawingUpdate);
+      sketchPad.canvas.style.cssText +=
+        "outline: 100000px solid rgba(0,0,0,0.7)";
 
-        chart.draw(data, options);
+      function onDrawingUpdate(paths) {
+        const functions = featureFunctions.inUse.map((func) => func.function);
+        point = functions.map((func) => func(paths));
+        utils.normalizePoints([point], minMax);
+        const { label, nearestSamples } = kNN.predict(point);
+        predictedLabelContainer.innerHTML = "is it a " + label + " ?";
+        chart.showDynamicPoint(point, label, nearestSamples);
       }
     </script>
-    <div id="container"></div>
-    <div id="chart_div" style="width: 900px; height: 500px"></div>
   </body>
 </html>

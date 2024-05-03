@@ -1,7 +1,8 @@
 const constants = require("../common/constants.js");
-const features = require("../common/features.js");
+const featureFunctions = require("../common/featureFunctions.js");
 
 const fs = require("fs");
+const utils = require("../common/utils.js");
 
 console.info("extracting features in progress...");
 
@@ -11,17 +12,39 @@ for (const sample of samples) {
   const paths = JSON.parse(
     fs.readFileSync(constants.JSON_DIR + "/" + sample.id + ".json")
   );
-  sample.point = [features.getPathCount(paths), features.getPointCount(paths)];
+
+  const functions = featureFunctions.inUse.map((func) => func.function);
+  sample.point = functions.map((func) => func(paths));
 }
 
-const featureNames = ["Path Count", "Point Count"];
+const featureNames = featureFunctions.inUse.map((func) => func.name);
+
+console.info("generating splits data set...");
+
+const trainingAmount = samples.length * 0.5;
+
+const training = [];
+const testing = [];
+for (let i = 0; i < samples.length; i++) {
+  if (i < trainingAmount) {
+    training.push(samples[i]);
+  } else {
+    testing.push(samples[i]);
+  }
+}
+
+const minMax = utils.normalizePoints(training.map((s) => s.point));
+utils.normalizePoints(
+  testing.map((s) => s.point),
+  minMax
+);
 
 fs.writeFileSync(
   constants.FEATURES,
   JSON.stringify({
     featureNames,
     samples: samples.map((sample) => {
-      return { point: sample.point, item: sample.item };
+      return { point: sample.point, label: sample.label };
     }),
   })
 );
@@ -29,6 +52,57 @@ fs.writeFileSync(
 fs.writeFileSync(
   constants.FEATURES_NODE_WEBAPP_OBJ,
   `const features=${JSON.stringify({ featureNames, samples })}`
+);
+
+fs.writeFileSync(
+  constants.MIN_MAX_NODE_WEBAPP_OBJ,
+  `const minMax=${JSON.stringify(minMax)};`
+);
+
+fs.writeFileSync(
+  constants.TRAINING,
+  JSON.stringify({
+    featureNames,
+    samples: training.map((sample) => {
+      return { point: sample.point, label: sample.label };
+    }),
+  })
+);
+
+fs.writeFileSync(
+  constants.TRAINING_CSV,
+  utils.toCSV(
+    [...featureNames, "label"],
+    training.map((a) => [...a.point, a.label])
+  )
+);
+
+fs.writeFileSync(
+  constants.TRAINING_NODE_WEBAPP_OBJ,
+  `const training=${JSON.stringify({ featureNames, samples: training })}`
+);
+
+fs.writeFileSync(
+  constants.TESTING,
+  JSON.stringify({
+    featureNames,
+    samples: testing.map((sample) => {
+      return { point: sample.point, label: sample.label };
+    }),
+  })
+);
+
+fs.writeFileSync(
+  constants.TESTING_CSV,
+  utils.toCSV(
+    [...featureNames, "label"],
+    testing.map((a) => [...a.point, a.label])
+  )
+);
+
+fs.writeFileSync(
+  constants.TESTING_NODE_WEBAPP_OBJ,
+  `const testing=${JSON.stringify({ featureNames, samples: testing })}`
 );
 
 console.info("features extracted completed!");

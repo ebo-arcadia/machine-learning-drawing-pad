@@ -1,5 +1,5 @@
 class SketchPad {
-  constructor(container, size = 400) {
+  constructor(container, onUpdate = null, size = 400) {
     this.canvas = document.createElement("canvas");
     this.canvas.width = size;
     this.canvas.height = size;
@@ -15,6 +15,8 @@ class SketchPad {
     this.eraserBtn.innerHTML = "erase";
     container.appendChild(this.eraserBtn);
     this.context = this.canvas.getContext("2d");
+
+    this.onUpdate = onUpdate;
     this.reset();
     this.#addEventListeners();
   }
@@ -66,6 +68,13 @@ class SketchPad {
       this.eraserBtn.disabled = false;
     } else {
       this.eraserBtn.disabled = true;
+    }
+    this.triggerUpdate();
+  }
+
+  triggerUpdate() {
+    if (this.onUpdate) {
+      this.onUpdate(this.paths);
     }
   }
 

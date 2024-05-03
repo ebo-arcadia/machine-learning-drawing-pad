@@ -3,20 +3,26 @@ function createRow(container, userName, userInputData) {
   row.classList.add("row");
   container.appendChild(row);
 
-  const rowItem = document.createElement("div");
-  rowItem.innerHTML = userName;
-  rowItem.classList.add("rowItem");
-  row.appendChild(rowItem);
+  const rowlabel = document.createElement("div");
+  rowlabel.innerHTML = userName;
+  rowlabel.classList.add("rowlabel");
+  row.appendChild(rowlabel);
 
   for (let userData of userInputData) {
-    const { id, item, user_id } = userData;
+    const { id, label, user_id, correct } = userData;
     const dataContainer = document.createElement("div");
     dataContainer.id = "data_" + id;
+    dataContainer.onclick = () => {
+      handleClick(userData, false);
+    };
     dataContainer.classList.add("dataContainer");
+    if (correct) {
+      dataContainer.style.backgroundColor = "lightgreen";
+    }
 
-    const drawingItem = document.createElement("div");
-    drawingItem.innerHTML = item;
-    dataContainer.appendChild(drawingItem);
+    const drawinglabel = document.createElement("div");
+    drawinglabel.innerHTML = label;
+    dataContainer.appendChild(drawinglabel);
 
     const img = document.createElement("img");
     img.src = constants.IMG_DIR + "/" + id + ".png";
@@ -27,5 +33,42 @@ function createRow(container, userName, userInputData) {
     dataContainer.appendChild(img);
 
     row.appendChild(dataContainer);
+  }
+}
+
+function handleClick(data, doScroll = true) {
+  if (data == null) {
+    [...document.querySelectorAll(".emphasize")].forEach((element) =>
+      element.classList.remove("emphasize")
+    );
+    return;
+  }
+
+  const element = document.getElementById("data_" + data.id);
+
+  if (element.classList.contains("emphasize")) {
+    element.classList.remove("emphasize");
+    chart.selectSample(null);
+    return;
+  }
+
+  [...document.querySelectorAll(".emphasize")].forEach((element) =>
+    element.classList.remove("emphasize")
+  );
+
+  element.classList.add("emphasize");
+  if (doScroll) {
+    element.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  chart.selectSample(data);
+}
+
+function toggleInput() {
+  if (inputContainer.style.display == "none") {
+    inputContainer.style.display = "block";
+    sketchPad.triggerUpdate();
+  } else {
+    inputContainer.style.display = "none";
+    chart.hideDynamicPoint();
   }
 }
