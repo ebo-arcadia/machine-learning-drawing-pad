@@ -19,4 +19,10 @@ this app is built with javascript, css, html with minimum libraries with an inte
 - decision boundaries
 - use Python and SkLearn
 
-###
+##
+
+![demo!](demo1.png)
+![demo!](demo2.png)
+![demo!](demo3.png)
+![demo!](demo4.png)
+![demo!](demo5.png)
